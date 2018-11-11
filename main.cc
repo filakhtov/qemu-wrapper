@@ -36,26 +36,43 @@ const std::string get_config_name(const std::string& vm_name)
     return ss.str();
 }
 
+std::string trim(const std::string& str)
+{
+    if (str.size() == 0) {
+        return str;
+    }
+
+    std::size_t first = str.find_first_not_of(" \t");
+    if (first == std::string::npos) {
+        return str;
+    }
+
+    std::size_t last = str.find_last_not_of("\t ");
+
+    return str.substr(first, (last - first + 1));
+}
+
 const std::string parse_line(const std::string& line)
 {
     if (line.size() == 0 || line.at(0) == '#') {
         return std::string{};
     }
 
+    std::string trimmed_line{trim(line)};
     std::string option{"-"};
     std::size_t pos{0}, start_at{0};
-    while((pos = line.find_first_of('#', pos))) {
+    while((pos = trimmed_line.find_first_of('#', pos))) {
         if (pos == std::string::npos) {
-            option += line.substr(start_at);
+            option += trimmed_line.substr(start_at);
             break;
         }
 
-        if (line.at(pos - 1) != '\\') {
-            option += line.substr(start_at, pos);
+        if (trimmed_line.at(pos - 1) != '\\') {
+            option += trimmed_line.substr(start_at, pos);
             break;
         }
 
-        option += line.substr(start_at, pos - 1);
+        option += trimmed_line.substr(start_at, pos - 1);
         option += '#';
         start_at = ++pos;
     }
