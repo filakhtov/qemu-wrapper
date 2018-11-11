@@ -38,38 +38,26 @@ const std::string get_config_name(const std::string& vm_name)
 
 const std::string parse_line(const std::string& line)
 {
+    if (line.size() == 0 || line.at(0) == '#') {
+        return std::string{};
+    }
+
     std::string option{"-"};
-    bool quoted{false};
-    char quote{0};
-    char previous{0};
-
-    for (const char& c : line) {
-        if (quoted) {
-            if (c == quote && previous != '\\') {
-                quote = 0;
-                quoted = false;
-            }
-        } else {
-            if (c == '\'' || c == '"') {
-                quote = c;
-                quoted = true;
-            }
-        }
-
-        if (!quoted && c == '#') {
+    std::size_t pos{0}, start_at{0};
+    while((pos = line.find_first_of('#', pos))) {
+        if (pos == std::string::npos) {
+            option += line.substr(start_at);
             break;
         }
 
-        option += c;
-        previous = c;
-    }
+        if (line.at(pos - 1) != '\\') {
+            option += line.substr(start_at, pos);
+            break;
+        }
 
-    if (quoted) {
-        throw new std::invalid_argument{"Malformed line, unbalanced quotes: " + line};
-    }
-
-    if (option.size() == 1) {
-        option = "";
+        option += line.substr(start_at, pos - 1);
+        option += '#';
+        start_at = ++pos;
     }
 
     return option;
