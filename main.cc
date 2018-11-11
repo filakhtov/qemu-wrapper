@@ -54,14 +54,18 @@ std::string trim(const std::string& str)
 
 const std::string parse_line(const std::string& line)
 {
-    if (line.size() == 0 || line.at(0) == '#') {
+    if (line.size() == 0) {
         return std::string{};
     }
 
     std::string trimmed_line{trim(line)};
+    if (trimmed_line.at(0) == '#') {
+        return std::string{};
+    }
+
     std::string option{"-"};
     std::size_t pos{0}, start_at{0};
-    while((pos = trimmed_line.find_first_of('#', pos))) {
+    while ((pos = trimmed_line.find_first_of("#", pos))) {
         if (pos == std::string::npos) {
             option += trimmed_line.substr(start_at);
             break;
@@ -84,7 +88,7 @@ const std::vector<std::string> parse_config(std::ifstream& config)
 {
     std::vector<std::string> options{};
     std::string line;
-    while(std::getline(config, line)) {
+    while (std::getline(config, line)) {
         const std::string option{parse_line(line)};
 
         if (option.size() == 0) {
