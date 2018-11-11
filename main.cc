@@ -128,7 +128,7 @@ std::vector<char*> create_environment()
 {
     return std::vector<char*>{
         const_cast<char*>("QEMU_AUDIO_DRV=" QEMU_AUDIO_DRV),
-	NULL
+        NULL
     };
 }
 
