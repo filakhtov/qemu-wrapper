@@ -148,12 +148,15 @@ std::vector<std::string> split_arguments(const std::vector<std::string>& config)
 {
     std::vector<std::string> arguments{};
     for (const auto& option : config) {
-        auto pos = option.find_first_of(' ');
+        auto pos = option.find_first_of(" \t");
         if (pos == std::string::npos) {
             arguments.push_back(option);
         } else {
             arguments.push_back(option.substr(0, pos));
-            arguments.push_back(option.substr(pos + 1));
+
+            pos = option.find_first_not_of(" \t", pos);
+
+            arguments.push_back(option.substr(pos));
         }
     }
 
