@@ -7,7 +7,4 @@
 // Path to QEMU executable
 #define QEMU_BINARY_PATH "/usr/bin/qemu-system-x86_64"
 
-// Can be any valid audio driver, e.g. pa, alsa, spice, etc.
-#define QEMU_AUDIO_DRV "pa"
-
 #endif // CONFIG_HH

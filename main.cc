@@ -132,14 +132,19 @@ static const std::vector<const char*> ENV_VARS{"DISPLAY", "TMP", "TMPDIR", "USER
 
 std::vector<char*> create_environment()
 {
-    std::vector<char*> vars{
-        const_cast<char*>("QEMU_AUDIO_DRV=" QEMU_AUDIO_DRV),
-    };
+    std::vector<char*> vars;
+    vars.reserve(ENV_VARS.size() + 1);
 
     for (const auto& name : ENV_VARS) {
+        const std::string value{std::getenv(name)};
+
+        if (value.size() == 0) {
+            continue;
+        }
+
         std::string var{name};
         var += "=";
-        var += std::getenv(name);
+        var += value;
 
         vars.push_back(const_cast<char*>(strdup(var.c_str())));
     }
