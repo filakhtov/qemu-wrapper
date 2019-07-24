@@ -128,12 +128,25 @@ std::vector<char*> create_arguments(const std::vector<std::string>& options)
     return arguments;
 }
 
+static const std::vector<const char*> ENV_VARS{"DISPLAY", "TMP", "TMPDIR", "USER", "XAUTHORITY"};
+
 std::vector<char*> create_environment()
 {
-    return std::vector<char*>{
+    std::vector<char*> vars{
         const_cast<char*>("QEMU_AUDIO_DRV=" QEMU_AUDIO_DRV),
-        NULL
     };
+
+    for (const auto& name : ENV_VARS) {
+        std::string var{name};
+        var += "=";
+        var += std::getenv(name);
+
+        vars.push_back(const_cast<char*>(strdup(var.c_str())));
+    }
+
+    vars.push_back(NULL);
+
+    return vars;
 }
 
 void execute(const std::vector<std::string>& options)
