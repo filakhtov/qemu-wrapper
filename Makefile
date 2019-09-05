@@ -21,7 +21,12 @@ all: qemu
 clean:
 	rm -vf *.o qemu
 
-qemu: main.o
-	$(CXX) -o qemu main.o
+qemu: Configuration.o Executor.o Environment.o Parameters.o Parser.o main.o
+	$(CXX) -o $@ $^
 
-main.o: config.hh main.cc
+main.o: main.cc config.hh Parameters.hh Parser.hh Configuration.hh
+Parameters.o: Parameters.cc Parameters.hh
+Parser.o: Parser.cc Parser.hh
+Environment.o: Environment.cc Environment.hh
+Executor.o: Executor.cc Executor.hh
+Configuration.o: Configuration.cc Configuration.hh

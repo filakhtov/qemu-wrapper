@@ -1,3 +1,5 @@
 *.o
 qemu
 /config.hh
+configs/**
+!configs/example.conf

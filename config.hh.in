@@ -2,7 +2,10 @@
 #define CONFIG_HH
 
 // Path where machine configuration files are stored
-#define CONFIGURATION_PATH "/path/to/qemu/conf/files"
+#define CONFIGURATION_PATH "configs/"
+
+// Extension that is appended to configuration file names
+#define CONFIGURATION_EXTENSION "conf"
 
 // Path to QEMU executable
 #define QEMU_BINARY_PATH "/usr/bin/qemu-system-x86_64"
