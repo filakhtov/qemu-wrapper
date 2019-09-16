@@ -50,7 +50,11 @@ const std::vector<EnvironmentVariable> Environment::collectEnvVars(const string_
     std::vector<EnvironmentVariable> vars;
     vars.reserve(var_names.size());
     for (const auto& name : var_names) {
-        const std::string value{std::getenv(name.c_str())};
+        auto env_value{std::getenv(name.c_str())};
+        if (env_value == NULL) {
+            continue;
+        }
+        const std::string value{env_value};
 
         vars.push_back({name, value});
     }
