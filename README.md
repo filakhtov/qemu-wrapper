@@ -1,3 +1,7 @@
+## DEPRECATED
+
+This project served me well for a long while. My requirements have grown, so there is now a new, better version available at [filakhtov/qemu-launcher](https://github.com/filakhtov/qemu-launcher) that, in addition to being able to launch QEMU-based virtual machines from predefined configuration files, uses a better configuration file format - YAML, as well as supports vCPU pinning feature and is written in Rust.
+
 # qemu-wrapper
 
 This is a simple wrapper for QEMU written in C++. The idea is to have a directory (repository of virtual machines), that contains `.conf` (extension can be configured using `CONFIGURATION_EXTENSION` macro) configuration files with virtual machine definitions and be able to start any machine by running the `qemu <machine-name>` command.
